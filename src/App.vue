@@ -1,15 +1,20 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <SideBarRules />
+  <TicTacToe />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TicTacToe from './components/TicTacToe.vue'
+import SideBarRules from './components/SideBarRules.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    TicTacToe,
+    SideBarRules
+  },
+  setup(){
+
   }
 }
 </script>
