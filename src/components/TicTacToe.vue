@@ -3,12 +3,12 @@
   
   <div class="row">
     <h2 v-for="(player) in this.$store.getters.players" v-bind:key="player">
-      Player {{ player }}
+      Player {{ player }}   
     </h2>
   </div>
 
   <div v-if="!ended">
-    <h2>{{ this.$store.getters.players[this.$store.getters.current_player] }}'s turn !</h2>
+    <h2>{{ this.$store.getters.players[this.$store.getters.x_turn] }}'s turn !</h2>
     <TicTacToeBoardVue v-bind:board="this.$store.getters.board" @played="make_play"/>
   </div>
   <div v-if="ended && this.$store.getters.winner != ''" >
@@ -156,7 +156,8 @@ button {
 .row{
   display: flex;
   flex-direction: row;
-  align-items: center;
-  text-align: center;
+  
+  text-align: left;
+  justify-content: center;
 }
 </style>
