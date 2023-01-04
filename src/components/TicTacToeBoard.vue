@@ -37,6 +37,7 @@ export default {
     },
     methods: {
         handle_click(index) {
+            
             this.$emit('played',index)
             
         }
