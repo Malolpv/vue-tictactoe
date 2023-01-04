@@ -1,51 +1,42 @@
-<template>
+<template >
   <h1>❌⭕ Tic Tac Toe</h1>
-  <h2>Player 1 : {{ player_1 }}</h2>
-  <h2>Player 2 : {{ player_2 }}</h2>
+  <h2>Player 1 : {{ players[0] }}</h2>
+  <h2>Player 2 : {{ players[1] }}</h2>
 
-  <h2>{{ this.players[current_player] }}'s turn !</h2>
-
-  <div class="board">
-    <div class="board-row">
-      <button v-for="(item, index) in board.slice(0, 3)" v-bind:key="index" v-on:click="make_play(index)">{{ item
-}}</button>
-    </div>
-    <div class="board-row">
-      <button v-for="(item, index) in board.slice(3, 6)" v-bind:key="index" v-on:click="make_play(index + 3)">{{ item
-}}</button>
-    </div>
-    <div class="board-row">
-      <button v-for="(item, index) in board.slice(6, 9)" v-bind:key="index" v-on:click="make_play(index + 6)">{{ item
-        }}</button>
-    </div>
-
+  <div v-if="!ended">
+    <h2>{{ this.players[0] }}'s turn !</h2>
+    <TicTacToeBoardVue v-bind:board="this.board" @played="make_play"/>
   </div>
+  <div v-if="ended && winner != ''" >
+    <h1>{{ players[0] }} won the game !</h1>
+  </div>
+  
 </template>
 
 <script>
 
+import { tictactoe } from './Store';
+import TicTacToeBoardVue from './TicTacToeBoard.vue';
 
 export default {
   name: "TicTacToe",
   props: {
 
   },
+  components:{
+    TicTacToeBoardVue
+  },
   data() {
     return {
-      current_player: "❌",
-      board: Array(9).fill(null),
+      ended: false,
+      current_player: -1,
+      board: tictactoe.board,
       players: ["❌","⭕"],
-      game: {
-        players: ["❌","⭕"],
-        x_state: [],
-        y_state: [],
-        x_turn: true,
-      }
+      
     };
   },
   beforeMount() {
-    this.get_first_player();
-    //this.game.x_turn = this.get_first_player_v2()
+    // tictactoe.x_turn = this.get_first_player()
   },
   methods: {
     next_player() {
@@ -53,14 +44,9 @@ export default {
       this.current_player = (this.current_player == 1) ? 0 : 1;
     },
 
-    get_first_player() {
-      /* get the first player wich will start the game */
-      this.current_player = Math.floor(Math.random() * this.players.length);
-    },
-
-    get_first_player_v2(){
-      /*Return random index (0 or 1) in player list*/ 
-      return this.game.players[Math.floor(Math.random * 2)]
+    get_first_player(){
+      /*Return random index (0 or 1) in player list corresponding to the player which is starting the game*/ 
+      return this.game.players[Math.floor(Math.random * this.players.length)]
     },
 
     check_draw() {
@@ -73,16 +59,15 @@ export default {
       }
       else {
         this.board[index] = this.players[this.current_player];
-        this.handle_play();
+        this.handle_play()
       }
     },
 
     handle_play() {
       if (this.has_win()) {
-        alert(this.players[this.current_player] + " won the game !")
+        this.ended=true;
         this.reset_game();
       } else if (this.check_draw()) {
-        alert("Draw !")
         this.reset_game();
       } else {
         this.next_player();
@@ -128,7 +113,10 @@ export default {
       else if (this.board[2] != null && this.board[2] == this.board[4] && this.board[6] == this.board[2]) {
         won = true;
       }
-
+      
+      if (won){
+        tictactoe.winner = tictactoe.players[won];
+      }
       return won;
     }
   }
