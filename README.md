@@ -1,6 +1,6 @@
 # vue-tictactoe
-
-tictactoe implemented in vuejs
+School project
+tictactoe implemented in vuejs 
 
 ## Project setup 
 ```
