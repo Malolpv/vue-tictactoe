@@ -1,5 +1,7 @@
 # vue-tictactoe
 
+tictactoe implemented in vuejs
+
 ## Project setup 
 ```
 npm install
